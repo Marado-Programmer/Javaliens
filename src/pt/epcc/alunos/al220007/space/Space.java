@@ -11,11 +11,15 @@ public class Space {
     public List<Asteroids> asteroids = new ArrayList<Asteroids>();
 
     public Space() {
-        for (int i = 0; i < 1; i++) asteroids.add(new Asteroids());
+        for (int i = 0; i < 5; i++) asteroids.add(new Asteroids());
     }
 
     public void update() {
-        asteroids.forEach(asteroid -> asteroid.update());
+        asteroids.forEach(asteroid -> {
+            asteroid.update();
+            if (asteroid.y >= Game.frameHeight)
+                asteroids.remove(asteroid);
+        });
     }
 
     public void render(Graphics g) {

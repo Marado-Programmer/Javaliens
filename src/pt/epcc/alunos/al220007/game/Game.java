@@ -10,11 +10,11 @@ import pt.epcc.alunos.al220007.entities.players.*;
 import pt.epcc.alunos.al220007.space.*;
 
 public class Game extends Canvas implements Runnable, MouseWheelListener {
-    public static int frameWidth = 1080, frameHeight = 720;
+    public static int frameWidth = 240, frameHeight = 480;
 
     private boolean isRunning = false;
 
-    public static float fps = 24, ups = 24;
+    public static float fps = 144, ups = 300;
 
     private Player player;
     private Space space;
@@ -28,7 +28,7 @@ public class Game extends Canvas implements Runnable, MouseWheelListener {
         ));
 
         this.space = new Space();
-        this.player = new Human(this.frameWidth / 2, this.frameHeight - 32);
+        this.player = new Human(this.frameWidth / 2 - 32 / 2, this.frameHeight - 32);
     }
 
     private void render() {
@@ -124,21 +124,5 @@ public class Game extends Canvas implements Runnable, MouseWheelListener {
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         this.player.plusMeters(e.getWheelRotation());
-    }
-
-    public int getFrameWidth() {
-        return frameWidth;
-    }
-
-    public void setFrameWidth(int frameWidth) {
-        this.frameWidth = frameWidth;
-    }
-
-    public int getFrameHeight() {
-        return frameHeight;
-    }
-
-    public void setFrameHeight(int frameHeight) {
-        this.frameHeight = frameHeight;
     }
 }

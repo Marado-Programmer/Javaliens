@@ -1,5 +1,7 @@
 package pt.epcc.alunos.al220007.entities.players;
 
+import pt.epcc.alunos.al220007.game.Game;
+
 import java.awt.*;
 
 public class Player extends Rectangle {
@@ -21,6 +23,9 @@ public class Player extends Rectangle {
     private void walk() {
         if (this.metersToWalk != 0) {
             this.x += (int) this.speed;
+
+            if (this.x < 0) this.x = 0;
+            else if (this.x > Game.frameWidth - this.width) this.x = Game.frameWidth - this.width;
 
             this.plusMeters(this.metersToWalk > 0 ? -1 : 1);
         }

@@ -9,42 +9,40 @@ public class Asteroids extends Rectangle{
     int target, initX;
     double speed;
 
-    int count;
-
     double m, b;
 
     public Asteroids() {
         Random r = new Random();
 
-        this.width = 16;
-        this.height = 16;
+        this.width = 8;
+        this.height = 8;
 
         this.x = this.initX = r.nextInt(Game.frameWidth);
         this.y = 0;
+
         this.target = r.nextInt(Game.frameWidth);
 
-        this.speed = r.nextDouble(Game.frameHeight / Game.fps + 1);
-        this.speed = 5;
+        this.speed = r.nextDouble((Game.frameHeight / (Game.fps)) / 2) + 1;
 
-        this.m = (0 - Game.frameHeight) / (initX - target); // (y1 - y2) / (x1 - x2)
+        System.out.println("Speed:\t" + this.speed + "px/frame");
 
-        this.b = -(m*initX); // y = mx + b <=> 0 = m*initX + b <=> -b = m*initX
-        System.out.println(this.m);
-        System.out.println(this.b);
+        this.m = this.target - this.initX;
+        this.m /= Game.frameHeight; // (y1 - y2) / (x1 - x2)
+
+        this.b = this.initX; // y = mx + b <=> initX = m*0 + b <=> initX = b
     }
 
     public void update() {
         this.y += this.speed;
-        this.count++;
 
-        this.x += (int) this.m * this.count + this.b;
-        System.out.println(this.count);
+        this.x = (int) (this.m * this.y + this.b);
     }
 
     public void render(Graphics g) {
         g.setColor(Color.CYAN);
         g.fillOval(this.x - this.width / 2, this.y - this.width / 2, this.width, this.height);
-        g.setColor(Color.PINK);
-        g.fillOval(this.target - this.width / 2, Game.frameHeight - this.height / 2, this.width, this.height);
+        g.setColor(Color.RED);
+        g.fillRect(this.target, Game.frameHeight, 1, 1);
+        g.fillRect(this.initX, 0, 1, 1);
     }
 }
