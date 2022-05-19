@@ -14,7 +14,7 @@ public class Game extends Canvas implements Runnable, MouseWheelListener {
 
     private boolean isRunning = false;
 
-    public static float fps = 24, ups = 1;
+    public static float fps = 24, ups = 24;
 
     private Player player;
     private Space space;
@@ -41,7 +41,7 @@ public class Game extends Canvas implements Runnable, MouseWheelListener {
 
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
         g.fillRect(0, 0, this.frameWidth, this.frameHeight);
 
         this.space.render(g);

@@ -7,7 +7,9 @@ import java.util.Random;
 
 public class Asteroids extends Rectangle{
     int target, initX;
-    double velocity;
+    double speed;
+
+    int count;
 
     double m, b;
 
@@ -21,21 +23,22 @@ public class Asteroids extends Rectangle{
         this.y = 0;
         this.target = r.nextInt(Game.frameWidth);
 
-        this.velocity = r.nextDouble(Game.frameHeight / Game.fps + 1);
-        this.velocity = 1;
+        this.speed = r.nextDouble(Game.frameHeight / Game.fps + 1);
+        this.speed = 5;
 
-        this.m = (0 - Game.frameHeight) / (initX - target);
+        this.m = (0 - Game.frameHeight) / (initX - target); // (y1 - y2) / (x1 - x2)
 
-        this.b = -(m*initX);
+        this.b = -(m*initX); // y = mx + b <=> 0 = m*initX + b <=> -b = m*initX
         System.out.println(this.m);
         System.out.println(this.b);
     }
 
     public void update() {
-        this.y += this.velocity;
+        this.y += this.speed;
+        this.count++;
 
-        this.x += (int) (this.m * this.velocity + this.b);
-        System.out.println(this.x);
+        this.x += (int) this.m * this.count + this.b;
+        System.out.println(this.count);
     }
 
     public void render(Graphics g) {
