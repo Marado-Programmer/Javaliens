@@ -10,19 +10,17 @@ import pt.epcc.alunos.al220007.game.Game;
 public class Space {
     public List<Asteroids> asteroids = new ArrayList<Asteroids>();
 
-    public Space() {
-        for (int i = 0; i < 5; i++) asteroids.add(new Asteroids());
-    }
-
     public void update() {
-        asteroids.forEach(asteroid -> {
-            asteroid.update();
-            if (asteroid.y >= Game.frameHeight)
-                asteroids.remove(asteroid);
-        });
+        asteroids.forEach(asteroid -> asteroid.update());
     }
 
     public void render(Graphics g) {
         asteroids.forEach(asteroid -> asteroid.render(g));
+    }
+
+    public void updatePerSecond() {
+        if (Math.random() < 1 / Math.pow(2, 3)) {
+            asteroids.add(new Asteroids());
+        }
     }
 }
