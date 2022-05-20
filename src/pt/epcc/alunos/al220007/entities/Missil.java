@@ -9,17 +9,18 @@ public class Missil extends Rectangle{
 
     public static int imageWidth = 32;
 
-    public Missil(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Missil(int shooterX, int shooterY, int[] point1, int[] point2) {
+        this.x = shooterX + Missil.imageWidth / 2;
+        this.y = shooterY - Missil.imageWidth;
     }
 
     public void update() {
-        this.y -= Game.frameHeight / 21;
+        this.y -= Game.frameHeight / 9;
     }
 
     public void render(Graphics g) {
-        g.fillOval(this.x + 32 / 2, this.y, 32 / 8, 32);
+        g.setColor(Color.YELLOW);
+        g.fillOval(this.x + Missil.imageWidth / 2 - 1, this.y, Missil.imageWidth / (Missil.imageWidth / 4), Missil.imageWidth);
         //g.drawImage(SpriteSheet.missiel, this.x, this.y, 32, 32, null);
     }
 }

@@ -73,7 +73,7 @@ public class Player extends Rectangle {
     }
 
     public void shoot() {
-        this.missils.add(new Missil(this.x + Missil.imageWidth / 2, this.y));
+        this.missils.add(new Missil(this.x, this.y));
     }
 
     private Polygon calcPolygonBasedOnRotation() {
@@ -110,7 +110,6 @@ public class Player extends Rectangle {
                 new int[] {(int) leftPoint[0], (int) topPoint[0], (int) rightPoint[0], this.x + this.width / 2},
                 new int[] {(int) leftPoint[1], (int) topPoint[1], (int) rightPoint[1], this.y + this.height - Math.round(this.height / 4)},
                 4);
-
 
         return polygon;
     }
