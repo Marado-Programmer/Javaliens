@@ -16,19 +16,19 @@ public class Player extends Rectangle {
 
     private float rotation = 90;
 
+    private double[] topPoint = new double[2];
+
     private List<Missil> missils = new ArrayList<>();
 
     public Player(int x, int y) {
         super(x, y, 64, 64);
-
-        this.y = 350;
     }
 
     public void update() {
         this.walk();
 
         if (rotation != 90)
-            this.rotation += (this.rotation > 90 ? -Math.ceil(this.rotation/this.width) : this.rotation < 90 ? Math.ceil(this.rotation/this.width) : 90) * Math.log(this.width);
+            this.rotation += (this.rotation > 90 ? -((this.speed + this.acelaration) / this.acelaration) : (this.speed + this.acelaration) / this.acelaration);
 
         this.missils.forEach(missil -> missil.update());
     }
@@ -36,17 +36,14 @@ public class Player extends Rectangle {
     private void walk() {
         this.calcSpeed();
         if (this.metersToWalk != 0) {
-            if (this.x + this.speed < 0 || this.x + this.speed > Game.frameWidth - width)
-                return;
-
             this.x += (int) this.speed;
 
             this.rotation += this.speed;
 
-            if (this.rotation > (90 + 60))
-                this.rotation = 90 + 60;
-            else if (this.rotation < (90 - 60))
-                this.rotation = 90 - 60;
+            if (this.rotation > (90 + 30))
+                this.rotation = 90 + 30;
+            else if (this.rotation < (90 - 30))
+                this.rotation = 90 - 30;
 
             if (this.x < 0)
                 this.x = 0;
@@ -65,7 +62,8 @@ public class Player extends Rectangle {
     }
 
     public void plusMeters(int meters) {
-        this.metersToWalk += meters;
+        if (this.x >= 0 && this.x < Game.frameWidth - this.width)
+            this.metersToWalk += meters;
     }
 
     private void calcSpeed() {
@@ -73,7 +71,10 @@ public class Player extends Rectangle {
     }
 
     public void shoot() {
-        this.missils.add(new Missil(this.x, this.y));
+        this.missils.add(new Missil(
+                this.topPoint,
+                new double[] {this.x + this.width / 2, this.y + this.height - Math.round(this.height / 4)}
+        ));
     }
 
     private Polygon calcPolygonBasedOnRotation() {
@@ -85,9 +86,8 @@ public class Player extends Rectangle {
         int y1 = this.y;
         int y2 = y + this.width / 4 * 6;
 
-        double[] topPoint = new double[2];
-        topPoint[0] = x1 + ((x2 - x1) / 2) * (1 - cos);
-        topPoint[1] = y1 + ((y2 - y1) / 2) * (1 - sin);
+        this.topPoint[0] = x1 + ((x2 - x1) / 2) * (1 - cos);
+        this.topPoint[1] = y1 + ((y2 - y1) / 2) * (1 - sin);
 
         double[] leftPoint = new double[2];
         leftPoint[0] = x1 + (x2 - x1) / 6;
@@ -107,8 +107,8 @@ public class Player extends Rectangle {
         rightPoint[1] += (y2 - y1) / 2 * ((sin > 0 && cos > 0) ? sin : (sin < 0 && cos < 0) ? 1 + sin : cos < 0 ? 1 : 0);
 
         Polygon polygon = new Polygon(
-                new int[] {(int) leftPoint[0], (int) topPoint[0], (int) rightPoint[0], this.x + this.width / 2},
-                new int[] {(int) leftPoint[1], (int) topPoint[1], (int) rightPoint[1], this.y + this.height - Math.round(this.height / 4)},
+                new int[] {(int) leftPoint[0], (int) this.topPoint[0], (int) rightPoint[0], this.x + this.width / 2},
+                new int[] {(int) leftPoint[1], (int) this.topPoint[1], (int) rightPoint[1], this.y + this.height - Math.round(this.height / 4)},
                 4);
 
         return polygon;

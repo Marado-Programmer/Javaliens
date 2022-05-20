@@ -12,12 +12,11 @@ import pt.epcc.alunos.al220007.entities.players.*;
 import pt.epcc.alunos.al220007.space.*;
 
 public class Game extends Canvas implements Runnable, MouseWheelListener, MouseListener {
-    //public static int frameWidth = 308, frameHeight = 720;
-    public static int frameWidth = 720, frameHeight = 720;
+    public static int frameWidth = 308, frameHeight = 720;
 
     private boolean isRunning = false;
 
-    public static float fps = 24, ups = 15;
+    public static float fps = 24, ups = 24;
 
     private Player player;
     private Space space;
