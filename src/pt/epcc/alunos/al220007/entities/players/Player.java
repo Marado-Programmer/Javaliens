@@ -20,13 +20,15 @@ public class Player extends Rectangle {
 
     public Player(int x, int y) {
         super(x, y, 64, 64);
+
+        this.y = 350;
     }
 
     public void update() {
         this.walk();
 
         if (rotation != 90)
-            this.rotation += this.rotation > 90 ? -Math.ceil(this.rotation/this.width) : Math.ceil(this.rotation/this.width);
+            this.rotation += (this.rotation > 90 ? -Math.ceil(this.rotation/this.width) : this.rotation < 90 ? Math.ceil(this.rotation/this.width) : 90) * Math.log(this.width);
 
         this.missils.forEach(missil -> missil.update());
     }
@@ -41,10 +43,10 @@ public class Player extends Rectangle {
 
             this.rotation += this.speed;
 
-            if (this.rotation < (90 + 60))
+            if (this.rotation > (90 + 60))
                 this.rotation = 90 + 60;
-            else if (this.rotation > (90 - 60))
-                this.rotation = 90 - 30;
+            else if (this.rotation < (90 - 60))
+                this.rotation = 90 - 60;
 
             if (this.x < 0)
                 this.x = 0;
@@ -98,8 +100,8 @@ public class Player extends Rectangle {
 
         double[] rightPoint = new double[2];
         rightPoint[0] = x1 + (x2 - x1) / 6;
-        rightPoint[0] += (x2 - x1) / 6 * ((sin > 0 && cos < 0) ? 1 + cos : (sin < 0 && cos > 0) ? cos : cos < 0 ? 0 : 1);
-        rightPoint[0] += (x2 - x1) / 2 * ((sin < 0 && cos < 0) ? -cos : (sin > 0 && cos > 0) ? 1 - cos : cos < 0 ? 1 : 0);
+        rightPoint[0] += (x2 - x1) / 6 * ((sin < 0 && cos < 0) ? -cos : (sin > 0 && cos > 0) ? 1 - cos : cos < 0 ? 1 : 0);
+        rightPoint[0] += (x2 - x1) / 2 * ((sin > 0 && cos < 0) ? 1 + cos : (sin < 0 && cos > 0) ? cos : cos < 0 ? 0 : 1);
         rightPoint[1] = y1 + (y2 - y1) / 6;
         rightPoint[1] += (y2 - y1) / 6 * ((sin > 0 && cos < 0) ? 1 - sin : (sin < 0 && cos > 0) ? -sin : cos < 0 ? 1 : 0);
         rightPoint[1] += (y2 - y1) / 2 * ((sin > 0 && cos > 0) ? sin : (sin < 0 && cos < 0) ? 1 + sin : cos < 0 ? 1 : 0);
